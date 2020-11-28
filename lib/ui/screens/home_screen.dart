@@ -1,5 +1,8 @@
+import 'package:advice_app/ui/widgets/advices_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:advice_app/state/advice_data.dart';
+import 'package:advice_app/models/advice_model.dart';
+import 'package:advice_app/ui/widgets/advice_card.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -7,7 +10,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  UIState currentUIState = UIState.loading;
+  UIState currentUIState;
 
   @override
   void initState() {
@@ -27,171 +30,27 @@ class _HomeScreenState extends State<HomeScreen> {
         child: CircularProgressIndicator(),
       );
     } else if (currentUIState == UIState.loaded) {
-      return advicesBuilder();
-    } else {
-      return Container(
-        child: Center(
-          child: Text(
-            'Home Screen is in [Error] state.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 40.0,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Lato',
-            ),
-          ),
-        ),
+      return buildAdvicesCards(AdviceData.advices);
+    } else if (currentUIState == UIState.error) {
+      return AdvicesErrorWidget(
+        errorText: AdviceData.error,
       );
+    } else {
+      return Container();
     }
   }
 }
 
-ListView advicesBuilder() {
+ListView buildAdvicesCards(List<Advice> advicesList) {
   return ListView.builder(
-      itemBuilder: (context, index) => AdviceCard(), itemCount: 3);
-}
-
-class AdviceCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
-      child: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              CircleAvatar(
-                backgroundImage: AssetImage('images/hakam - Copy.jpg'),
-                radius: 30.0,
-              ),
-              SizedBox(
-                width: 10.0,
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Ahmed Hakam',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      'Mon 22 Nov 20, 3:20 PM',
-                      style: TextStyle(color: Colors.black54),
-                    )
-                  ],
-                ),
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.more_vert,
-                ),
-              )
-            ],
+      itemBuilder: (context, index) => AdviceCard(
+            userName: advicesList[index].adviceCreator.userName,
+            userImage: advicesList[index].adviceCreator.userImagePath,
+            adviceImage: advicesList[index].adviceImagePath,
+            likesNum: advicesList[index].likesNum,
+            dislikesNum: advicesList[index].dislikesNum,
+            commentsNum: advicesList[index].comments.length,
+            flagsNum: advicesList[index].flagsNum,
           ),
-          SizedBox(
-            height: 20.0,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 3,
-            clipBehavior: Clip.antiAlias,
-            child: Image.asset(
-              'images/jodan-quotes-greats-1024x536.jpg',
-              fit: BoxFit.fill,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-          ),
-          Row(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  IconButton(
-                    onPressed: () {},
-                    color: Colors.grey,
-                    iconSize: 30.0,
-                    icon: Icon(Icons.thumb_up),
-                  ),
-                  Text(
-                    '247',
-                    style: TextStyle(
-                        color: Colors.blueGrey,
-                        fontSize: 17.5,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-              SizedBox(
-                width: 20.0,
-              ),
-              Row(
-                children: <Widget>[
-                  IconButton(
-                    onPressed: () {},
-                    color: Colors.grey,
-                    iconSize: 30.0,
-                    icon: Icon(Icons.thumb_down),
-                  ),
-                  Text(
-                    '1',
-                    style: TextStyle(
-                        color: Colors.blueGrey,
-                        fontSize: 17.5,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-              SizedBox(
-                width: 20.0,
-              ),
-              Row(
-                children: <Widget>[
-                  IconButton(
-                    onPressed: () {},
-                    color: Colors.grey,
-                    iconSize: 30.0,
-                    icon: Icon(Icons.chat_bubble),
-                  ),
-                  Text(
-                    '57',
-                    style: TextStyle(
-                        color: Colors.blueGrey,
-                        fontSize: 17.5,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-              SizedBox(
-                width: 20.0,
-              ),
-              Row(
-                children: <Widget>[
-                  IconButton(
-                    onPressed: () {},
-                    color: Colors.grey,
-                    iconSize: 30.0,
-                    icon: Icon(Icons.flag),
-                  ),
-                  Text(
-                    '0',
-                    style: TextStyle(
-                        color: Colors.blueGrey,
-                        fontSize: 17.5,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
+      itemCount: AdviceData.advices.length);
 }

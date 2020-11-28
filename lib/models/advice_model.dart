@@ -7,4 +7,16 @@ class Advice {
   User adviceCreator;
   List<Comment> comments;
   int likesNum;
+  int dislikesNum;
+  //Temp
+  int flagsNum;
+
+  Advice(
+      {this.adviceCreator,
+      this.adviceImagePath,
+      this.adviceText,
+      this.likesNum,
+      this.dislikesNum,
+      this.flagsNum,
+      this.comments});
 }

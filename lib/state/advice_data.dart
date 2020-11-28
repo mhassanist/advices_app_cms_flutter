@@ -1,4 +1,6 @@
 import 'package:advice_app/models/advice_model.dart';
+import 'package:advice_app/models/comment_model.dart';
+import 'package:advice_app/models/user_model.dart';
 
 enum UIState {
   loading,
@@ -8,30 +10,63 @@ enum UIState {
 
 class AdviceData {
   static List<Advice> advices = [];
-  static UIState advicesListState = UIState.loading;
+  static UIState advicesListState;
+  static String error;
 
   static void getAdvices(updateUIState(newUIState)) {
     try {
       if (advices.isNotEmpty) {
-        print('Loaded state because the advices list is not empty.');
-        updateUIState(UIState.loaded);
+        advicesListState = UIState.loaded;
+//        updateUIState(advicesListState);
         return;
       }
+
+      advicesListState = UIState.loading;
 
       //Code for simulating the delay [getting advices data].
       Future.delayed(
         Duration(seconds: 4),
         () {
-          advices.add(Advice());
+          getDummyAdvices();
           advicesListState = UIState.loaded;
           updateUIState(advicesListState);
+          print(advices.length);
         },
       );
     } catch (e) {
-      updateUIState(UIState.error);
+      advicesListState = UIState.error;
+      error = 'Something Wrong happened!';
     } finally {
-      print('Finally block is called with UI state: $advicesListState');
+      print(advicesListState);
       updateUIState(advicesListState);
     }
+  }
+
+  static void getDummyAdvices() {
+    advices = [
+      Advice(
+        adviceCreator:
+            User(userName: 'Ahmed Hakam', userImagePath: 'images/hakam.jpg'),
+        adviceImagePath: 'images/advice_01.jpg',
+        likesNum: 2,
+        dislikesNum: 0,
+        flagsNum: 2,
+        comments: [
+          Comment(),
+          Comment(),
+        ],
+      ),
+      Advice(
+        adviceCreator:
+            User(userName: 'Ibrahim Al-Feky', userImagePath: 'images/feky.jpg'),
+        adviceImagePath: 'images/advice_02.jpg',
+        likesNum: 5,
+        dislikesNum: 1,
+        flagsNum: 0,
+        comments: [
+          Comment(),
+        ],
+      ),
+    ];
   }
 }

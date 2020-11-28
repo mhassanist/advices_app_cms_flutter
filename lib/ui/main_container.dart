@@ -16,12 +16,13 @@ class _MainContainerState extends State<MainContainer> {
     HomeScreen(),
     FavoriteScreen(),
     SettingsScreen(),
-    ProfileScreen()
+    ProfileScreen(),
   ];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        extendBody: true,
         appBar: AppBar(
           elevation: 0.0,
         ),
