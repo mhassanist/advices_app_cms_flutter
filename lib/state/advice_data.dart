@@ -67,6 +67,20 @@ class AdviceData {
           Comment(),
         ],
       ),
+      Advice(
+        adviceCreator:
+            User(userName: 'Ahmed Hakam', userImagePath: 'images/hakam.jpg'),
+        adviceImagePath: 'images/advice_03.jpg',
+        likesNum: 10,
+        dislikesNum: 0,
+        flagsNum: 0,
+        comments: [
+          Comment(),
+          Comment(),
+          Comment(),
+          Comment(),
+        ],
+      ),
     ];
   }
 }

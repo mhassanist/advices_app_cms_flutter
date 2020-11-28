@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'actions_widget.dart';
+
 class AdviceCard extends StatelessWidget {
   final String userImage;
   final String userName;
@@ -68,7 +70,7 @@ class AdviceCard extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             child: Image.asset(
               adviceImage,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
@@ -76,82 +78,34 @@ class AdviceCard extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  IconButton(
-                    onPressed: () {},
-                    color: Colors.grey,
-                    iconSize: 30.0,
-                    icon: Icon(Icons.thumb_up),
-                  ),
-                  Text(
-                    '$likesNum',
-                    style: TextStyle(
-                        color: Colors.blueGrey,
-                        fontSize: 17.5,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
+              ActionWidget(
+                icon: Icons.thumb_up,
+                counter: likesNum,
+                buttonCallback: () {},
               ),
               SizedBox(
                 width: 20.0,
               ),
-              Row(
-                children: <Widget>[
-                  IconButton(
-                    onPressed: () {},
-                    color: Colors.grey,
-                    iconSize: 30.0,
-                    icon: Icon(Icons.thumb_down),
-                  ),
-                  Text(
-                    '$dislikesNum',
-                    style: TextStyle(
-                        color: Colors.blueGrey,
-                        fontSize: 17.5,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
+              ActionWidget(
+                icon: Icons.thumb_down,
+                counter: dislikesNum,
+                buttonCallback: () {},
               ),
               SizedBox(
                 width: 20.0,
               ),
-              Row(
-                children: <Widget>[
-                  IconButton(
-                    onPressed: () {},
-                    color: Colors.grey,
-                    iconSize: 30.0,
-                    icon: Icon(Icons.chat_bubble),
-                  ),
-                  Text(
-                    '$commentsNum',
-                    style: TextStyle(
-                        color: Colors.blueGrey,
-                        fontSize: 17.5,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
+              ActionWidget(
+                icon: Icons.chat_bubble,
+                counter: commentsNum,
+                buttonCallback: () {},
               ),
               SizedBox(
                 width: 20.0,
               ),
-              Row(
-                children: <Widget>[
-                  IconButton(
-                    onPressed: () {},
-                    color: Colors.grey,
-                    iconSize: 30.0,
-                    icon: Icon(Icons.flag),
-                  ),
-                  Text(
-                    '$flagsNum',
-                    style: TextStyle(
-                        color: Colors.blueGrey,
-                        fontSize: 17.5,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
+              ActionWidget(
+                icon: Icons.flag,
+                counter: flagsNum,
+                buttonCallback: () {},
               ),
             ],
           )
